@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Andre Bento</title>
+  <meta name="description" content="Andre Bento, 19 anos. Engenharia de Software na FIAP e financeiro na ONE.">
+
+  <!-- Marca a página como "com JavaScript" antes de pintar (evita piscar nas animações) -->
+  <script>document.documentElement.classList.add('js');</script>
+
+  <!-- Fontes (Google Fonts): Bricolage Grotesque (tudo) e Caveat (anotações à mão) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Caveat:wght@500;600&display=swap">
+
+  <style>
+    /* =========================================================
+       1. VARIÁVEIS  ->  mude cores e fontes só aqui
+       ========================================================= */
+    :root {
+      /* Paleta verde (do menta claro ao verde quase preto) */
+      --v1: #DAF1DE;
+      --v2: #8EB69B;
+      --v3: #6BA06F;
+      --v4: #507D5A;
+      --v5: #235347;
+      --v6: #163832;
+      --v7: #0B2B26;
+      --v8: #051F20;
+
+      /* Dourado do pôr do sol (pouco, só em detalhes) */
+      --sol: #E9B949;
+      --sol-escuro: #B8821A;
+
+      --f-texto: 'Bricolage Grotesque', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+      --f-mao:   'Caveat', 'Segoe Print', 'Bradley Hand', cursive;
+
+      --gutter: clamp(16px, 4vw, 56px);
+      --largura: 1200px;
+    }
+
+    /* =========================================================
+       2. BASE
+       ========================================================= */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--v8);
+      color: var(--v7);
+      font-family: var(--f-texto);
+      font-size: 18px;
+      line-height: 1.6;
+      overflow-x: clip;
+    }
+    h1, h2, h3, p, dl, dd, ul { margin: 0; padding: 0; }
+    ul { list-style: none; }
+    a { color: inherit; }
+    a:focus-visible, button:focus-visible { outline: 3px solid var(--sol); outline-offset: 3px; }
+
+    .wrap { width: 100%; max-width: var(--largura); margin-inline: auto; padding-inline: var(--gutter); }
+
+    /* título de seção */
+    .titulo {
+      font-weight: 800;
+      font-size: clamp(48px, 7.5vw, 108px);
+      line-height: .92;
+      letter-spacing: -.04em;
+    }
+
+    /* anotação escrita à mão ao lado dos títulos */
+    .mao {
+      font-family: var(--f-mao);
+      font-weight: 600;
+      font-size: clamp(24px, 2.4vw, 34px);
+      line-height: 1;
+      display: inline-block;
+      transform: rotate(-3deg);
+    }
+
+    /* botões e links */
+    .btn {
+      display: inline-block;
+      padding: 14px 24px;
+      border: 2px solid currentColor;
+      border-radius: 6px;
+      background: transparent;
+      color: inherit;
+      font: 700 16px/1 var(--f-texto);
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .btn:hover { background: var(--v7); color: var(--v1); border-color: var(--v7); }
+    .btn--cheio { background: var(--v7); color: var(--v1); border-color: var(--v7); }
+    .btn--cheio:hover { background: var(--v5); border-color: var(--v5); }
+    .btn--sol { background: var(--sol); color: var(--v8); border-color: var(--sol); }
+    .btn--sol:hover { background: #f3c862; border-color: #f3c862; color: var(--v8); }
+    .escuro .btn:hover { background: var(--v1); color: var(--v8); border-color: var(--v1); }
+    .escuro .btn--sol:hover { background: #f3c862; border-color: #f3c862; }
+
+    /* =========================================================
+       3. HERO  (nome gigante ATRÁS dos picos)
+       ========================================================= */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(180deg, var(--v1) 0%, #cdebd3 100%);
+      padding-top: 120px;
+    }
+    .topo {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      z-index: 6;
+    }
+    .topo .wrap {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 6px 28px;
+      padding-block: 24px;
+      color: var(--v8);
+    }
+    .topo__logo { font-weight: 800; font-size: 20px; letter-spacing: -.02em; text-decoration: none; }
+    .topo__links { display: flex; flex-wrap: wrap; gap: 4px 24px; font-size: 16px; font-weight: 500; }
+    .topo__links a { text-decoration: none; }
+    .topo__links a:hover { text-decoration: underline; text-underline-offset: 5px; text-decoration-thickness: 2px; }
+
+    .intro { position: relative; z-index: 3; max-width: 520px; display: flex; flex-direction: column; gap: 22px; padding-bottom: 30px; }
+    .intro p { font-size: 21px; line-height: 1.45; color: var(--v6); }
+    .intro__botoes { display: flex; flex-wrap: wrap; gap: 12px; }
+
+    /* Ficha de personagem: papel colado com fita */
+    .ficha {
+      position: relative;
+      z-index: 4;
+      width: min(100%, 360px);
+      margin: 0 auto 36px;
+      padding: 30px 26px 26px;
+      background: #f5fbf4;
+      border: 1.5px solid var(--v8);
+      border-radius: 4px;
+      transform: rotate(-1.5deg);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .ficha::before {                           /* a fita */
+      content: '';
+      position: absolute;
+      top: -14px; left: 50%;
+      width: 110px; height: 28px;
+      margin-left: -55px;
+      background: rgba(233, 185, 73, .75);
+      transform: rotate(3deg);
+    }
+    .ficha__titulo { font-size: 14px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--v5); }
+    .ficha__nome { font-weight: 800; font-size: 38px; line-height: 1; letter-spacing: -.03em; }
+    .ficha__classe { font-size: 16px; color: var(--v5); margin-top: 4px; }
+    .ficha dl { display: grid; grid-template-columns: auto 1fr; gap: 8px 16px; padding-top: 14px; border-top: 1.5px dashed var(--v5); font-size: 17px; }
+    .ficha dt { font-weight: 600; color: var(--v5); }
+    .ficha dd { font-weight: 500; }
+    .ficha__attrs { padding-top: 14px; border-top: 1.5px dashed var(--v5); }
+    .ficha__attrs strong { display: block; font-size: 14px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--v5); margin-bottom: 4px; }
+    .ficha__attrs span { font-family: var(--f-mao); font-weight: 600; font-size: 26px; line-height: 1.15; }
+
+    /* Cena: cordilheira de trás (z1) -> NOME (z2) -> cordilheira da frente (z3) */
+    .cena { position: relative; height: clamp(480px, 44vw, 640px); margin-top: 8px; }
+    .cena svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+    .cena__tras   { z-index: 1; }
+    .cena__nome   { position: absolute; z-index: 2; left: 0; right: 0; bottom: 22%; }
+    .cena__frente { z-index: 3; pointer-events: none; }
+
+    .nome__sub {
+      font-weight: 300;
+      font-size: clamp(24px, 3.4vw, 52px);
+      line-height: 1;
+      letter-spacing: -.02em;
+      color: var(--v6);
+      margin-bottom: .15em;
+    }
+    .nome {
+      font-weight: 800;
+      font-size: clamp(56px, 12.5vw, 205px);
+      line-height: .86;
+      letter-spacing: -.055em;
+      color: var(--v8);
+      white-space: nowrap;
+    }
+
+    .role {
+      position: absolute;
+      z-index: 5;
+      right: clamp(14px, 2.4vw, 36px);
+      bottom: 26px;
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+      color: var(--v1);
+      font-size: 13px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase;
+      writing-mode: vertical-rl;
+      text-decoration: none;
+    }
+    .role::after { content: ''; width: 1px; height: 50px; background: var(--v1); }
+
+    @media (min-width: 960px) {
+      .hero { padding-top: 130px; }
+      .ficha { position: absolute; top: 120px; right: var(--gutter); margin: 0; width: 350px; }
+    }
+    @media (max-width: 959px) {
+      .role { display: none; }
+      .cena__nome { bottom: 28%; }
+    }
+    @media (max-width: 640px) {
+      .hero { padding-top: 130px; }
+    }
+
+    /* =========================================================
+       4. FAIXA
+       ========================================================= */
+    .faixa {
+      position: relative;
+      background: var(--v5);
+      color: var(--v1);
+      padding: 0 0 78px;
+    }
+    .faixa p { font-weight: 300; font-size: clamp(28px, 4.4vw, 60px); line-height: 1.1; letter-spacing: -.03em; }
+    .faixa b { font-weight: 800; }
+
+    /* =========================================================
+       5. TRILHA  (caminho pontilhado à mão + um "x" de mapa do tesouro)
+       Todo elemento com a classe .parada desenha o caminho até a próxima seção.
+       ========================================================= */
+    .parada { position: relative; }
+    .parada::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      bottom: -62px;
+      width: 60px; height: 124px;
+      margin-left: -30px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 124'%3E%3Cpath d='M30 0 C6 24 54 44 28 66 S10 104 30 124' fill='none' stroke='%23B8821A' stroke-width='3' stroke-linecap='round' stroke-dasharray='0.5 9'/%3E%3C/svg%3E") no-repeat center / 100% 100%;
+      z-index: 6;
+    }
+    .parada::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      bottom: -13px;
+      width: 26px; height: 26px;
+      margin-left: -13px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 26'%3E%3Cpath d='M5 6 L21 20 M21 5 L6 21' fill='none' stroke='%23E9B949' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat center / 100% 100%;
+      z-index: 7;
+    }
+    .escuro.parada::after, .escuro .parada::after, .parada--escura::after {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 124'%3E%3Cpath d='M30 0 C6 24 54 44 28 66 S10 104 30 124' fill='none' stroke='%23E9B949' stroke-width='3' stroke-linecap='round' stroke-dasharray='0.5 9'/%3E%3C/svg%3E");
+    }
+
+    /* =========================================================
+       6. SEÇÕES (cada uma é uma fatia do degradê contínuo)
+       ========================================================= */
+    .secao { position: relative; padding-block: clamp(96px, 11vw, 150px); }
+    .cab { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 6px 22px; }
+    .cab .mao { margin-bottom: .3em; }
+
+    /* 6.1 Sobre mim */
+    .sobre {
+      background: linear-gradient(180deg, var(--v1) 0%, #c9e8d0 100%);
+      padding-top: clamp(130px, 14vw, 190px);
+    }
+    .sobre .wrap { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 48px clamp(40px, 7vw, 110px); align-items: start; }
+    .sobre__texto { display: flex; flex-direction: column; gap: 32px; }
+    .sobre__texto p { font-size: clamp(22px, 2.4vw, 30px); line-height: 1.4; letter-spacing: -.01em; max-width: 30em; }
+    .fatos { padding-top: clamp(0px, 6vw, 90px); }
+    .fatos div { display: flex; flex-direction: column; padding: 16px 0; border-bottom: 1.5px solid rgba(11, 43, 38, .3); }
+    .fatos div:first-child { border-top: 1.5px solid rgba(11, 43, 38, .3); }
+    .fatos dt { font-size: 14px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--v5); }
+    .fatos dd { font-weight: 700; font-size: 24px; letter-spacing: -.02em; }
+    @media (max-width: 800px) { .sobre .wrap { grid-template-columns: minmax(0, 1fr); } .fatos { padding-top: 0; } }
+
+    .borda { position: absolute; top: -1px; left: 0; width: 100%; height: clamp(40px, 6vw, 90px); display: block; z-index: 2; }
+
+    /* 6.2 Profissão */
+    .profissao { background: linear-gradient(180deg, #c9e8d0 0%, #a9d0b5 100%); }
+    .profissao .wrap { display: flex; flex-direction: column; gap: 56px; }
+    .blocos { display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start; }
+    .bloco { min-width: 0; padding: clamp(28px, 4vw, 48px); display: flex; flex-direction: column; gap: 14px; border-radius: 4px; }
+    .bloco small { font-size: 14px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+    .bloco h3 { font-weight: 800; font-size: clamp(76px, 12vw, 170px); line-height: .82; letter-spacing: -.06em; }
+    .bloco p { font-size: 20px; max-width: 18em; }
+    .bloco--fiap { flex: 3 1 440px; background: var(--v1); }
+    .bloco--fiap small { color: var(--v5); }
+    .bloco--one  { flex: 2 1 300px; background: var(--v7); color: var(--v1); margin-top: clamp(0px, 5vw, 70px); }
+    .bloco--one small { color: var(--sol); }
+
+    /* 6.3 Gostos */
+    .gostos {
+      background: linear-gradient(180deg, #a9d0b5 0%, var(--v2) 100%);
+      padding-bottom: clamp(60px, 8vw, 100px);
+    }
+    .gostos .wrap { display: flex; flex-direction: column; gap: 56px; }
+    .quadro { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 22px 18px; }
+    .papel {
+      min-width: 0;
+      padding: 22px 22px 20px;
+      border-radius: 3px;
+      display: flex; flex-direction: column; justify-content: space-between; gap: 18px;
+      box-shadow: 0 2px 0 rgba(5, 31, 32, .25);
+    }
+    .papel h3 { font-weight: 800; font-size: clamp(38px, 4.6vw, 68px); line-height: .9; letter-spacing: -.045em; overflow-wrap: anywhere; }
+    .papel span { font-family: var(--f-mao); font-weight: 600; font-size: 24px; line-height: 1; }
+    .papel--1 { flex: 1.35 1 260px; min-height: 230px; background: var(--v7); color: var(--v1); transform: rotate(-1.6deg); }
+    .papel--2 { flex: 1 1 200px; min-height: 180px; background: var(--sol); color: var(--v8); transform: rotate(1.8deg); margin-top: 26px; }
+    .papel--3 { flex: 1 1 200px; min-height: 250px; background: var(--v1); color: var(--v8); transform: rotate(1.2deg); }
+    .papel--4 { flex: 1.2 1 240px; min-height: 200px; background: var(--v4); color: var(--v1); transform: rotate(-2deg); margin-top: 34px; }
+    @media (max-width: 600px) {
+      .papel { flex: 1 1 calc(50% - 12px); min-height: 150px; padding: 16px; }
+      .papel h3 { font-size: 29px; overflow-wrap: normal; }
+      .papel span { font-size: 22px; }
+      .papel--2, .papel--4 { margin-top: 14px; }
+    }
+
+    /* cordilheira que leva do verde claro ao escuro */
+    .cordilheira { display: block; width: 100%; height: clamp(120px, 16vw, 240px); margin-top: -1px; background: var(--v2); }
+
+    /* 6.4 Minha mente (mapa mental) */
+    .mente {
+      background: linear-gradient(180deg, var(--v7) 0%, #072620 100%);
+      color: var(--v1);
+      margin-top: -1px;
+      padding-top: clamp(24px, 4vw, 56px);
+    }
+    .mente .wrap { display: flex; flex-direction: column; gap: 40px; }
+    .mente__texto { max-width: 30em; color: #cfe6d4; font-size: 20px; }
+    .mente .mao { color: var(--sol); }
+
+    .mapa { position: relative; width: 100%; max-width: 1100px; margin-inline: auto; aspect-ratio: 1000 / 625; }
+    .mapa svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .mapa path { fill: none; stroke: rgba(218, 241, 222, .5); stroke-width: 1.6; stroke-linecap: round; stroke-dasharray: 1 7; vector-effect: non-scaling-stroke; }
+    .no { position: absolute; transform: translate(-50%, -50%); white-space: nowrap; }
+    .no--centro { font-weight: 800; letter-spacing: -.04em; font-size: clamp(26px, 4.6vw, 64px); line-height: 1; padding: .3em .5em .36em; background: var(--sol); color: var(--v8); border-radius: 6px; transform: translate(-50%, -50%) rotate(-2deg); }
+    .no--hub { font-weight: 700; font-size: clamp(13px, 1.5vw, 20px); letter-spacing: -.01em; padding: .5em .9em; background: var(--v1); color: var(--v8); border-radius: 4px; }
+    .no--folha { font-family: var(--f-mao); font-weight: 600; font-size: clamp(16px, 2.1vw, 30px); line-height: 1; padding: .1em .3em; border-bottom: 2px solid rgba(233, 185, 73, .8); }
+    /* no celular o mapa vira uma lista */
+    .lista { display: none; flex-wrap: wrap; gap: 10px 14px; }
+    .lista span { font-family: var(--f-mao); font-weight: 600; font-size: 26px; line-height: 1.1; padding: 2px 4px; border-bottom: 2px solid rgba(233, 185, 73, .8); }
+    .lista b { font-weight: 700; font-size: 15px; background: var(--v1); color: var(--v8); padding: 6px 10px; border-radius: 4px; }
+    @media (max-width: 760px) { .mapa { display: none; } .lista { display: flex; } }
+
+    /* 6.5 Contato */
+    .contato {
+      background: linear-gradient(180deg, #072620 0%, var(--v8) 100%);
+      color: var(--v1);
+      padding-block: clamp(110px, 12vw, 160px) 40px;
+    }
+    .contato__corpo { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 32px; }
+    .contato__texto { min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+    .contato__titulo { font-weight: 800; font-size: clamp(56px, 11vw, 160px); line-height: .86; letter-spacing: -.055em; }
+    .contato__email { font-size: 20px; color: #cfe6d4; overflow-wrap: anywhere; }
+    .contato__botoes { display: flex; flex-wrap: wrap; gap: 12px; }
+    .rodape { margin-top: 64px; padding-top: 20px; border-top: 1px solid rgba(218, 241, 222, .2); font-size: 15px; color: #9fc4a9; }
+
+    /* =========================================================
+       7. ANIMAÇÃO DE ENTRADA (sem JS ou com "reduzir movimento": tudo visível)
+       ========================================================= */
+    .js .aparece { opacity: 0; transform: translateY(20px); transition: opacity .7s ease, transform .7s ease; }
+    .js .aparece.entrou { opacity: 1; transform: none; }
+    .js .papel.aparece { transform: translateY(20px) rotate(0); }
+    .js .papel--1.entrou { transform: rotate(-1.6deg); }
+    .js .papel--2.entrou { transform: rotate(1.8deg); }
+    .js .papel--3.entrou { transform: rotate(1.2deg); }
+    .js .papel--4.entrou { transform: rotate(-2deg); }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .js .aparece { opacity: 1; transition: none; }
+      .js .papel--1.aparece, .js .papel--2.aparece, .js .papel--3.aparece, .js .papel--4.aparece { transition: none; }
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+
+    <!-- ============ HERO ============ -->
+    <header class="hero" id="topo">
+
+      <nav class="topo" aria-label="Principal">
+        <div class="wrap">
+          <a class="topo__logo" href="#topo">Andre Bento</a>
+          <div class="topo__links">
+            <a href="#sobre">Sobre mim</a>
+            <a href="#profissao">Profissão</a>
+            <a href="#gostos">Gostos</a>
+            <a href="#mente">Minha mente</a>
+            <a href="#contato">Contato</a>
+          </div>
+        </div>
+      </nav>
+
+      <div class="wrap">
+        <div class="intro">
+          <p>Tenho 19 anos, estudo Engenharia de Software na FIAP e trabalho no financeiro da ONE.</p>
+          <div class="intro__botoes">
+            <a class="btn btn--cheio" href="#sobre">Me conhecer</a>
+            <a class="btn" href="#contato">Falar comigo</a>
+          </div>
+        </div>
+
+        <!-- Ficha de personagem -->
+        <aside class="ficha" aria-label="Ficha do personagem">
+          <div class="ficha__titulo">Ficha do personagem · nível 19</div>
+          <div>
+            <div class="ficha__nome">Andre Bento</div>
+            <div class="ficha__classe">Engenheiro de Software em formação</div>
+          </div>
+          <dl>
+            <dt>Academia</dt><dd>FIAP</dd>
+            <dt>Guilda</dt><dd>ONE, financeiro</dd>
+          </dl>
+          <div class="ficha__attrs">
+            <strong>Atributos</strong>
+            <span>simpático, fácil de conversar, pensativo, prestativo</span>
+          </div>
+        </aside>
+      </div>
+
+      <!-- Paisagem: cordilheira de trás (z1) -> NOME (z2) -> cordilheira da frente (z3) -->
+      <div class="cena">
+        <svg class="cena__tras" id="camadaTras" viewBox="0 0 1440 620" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+          <circle cx="310" cy="185" r="72" fill="#E9B949" opacity=".92"/>
+          <path d="M0 410 L70 372 L150 392 L260 322 L330 362 L440 296 L520 352 L610 330 L700 372 L800 282 L880 336 L990 312 L1060 358 L1170 326 L1250 300 L1340 352 L1440 332 L1440 620 L0 620Z" fill="#A9D0B5"/>
+          <path d="M0 452 L110 418 L200 446 L330 400 L430 440 L560 408 L690 452 L780 414 L920 458 L1040 410 L1130 442 L1290 412 L1440 446 L1440 620 L0 620Z" fill="#8EB69B"/>
+        </svg>
+
+        <div class="cena__nome">
+          <div class="wrap">
+            <p class="nome__sub">oi, eu sou o</p>
+            <h1 class="nome">Andre Bento</h1>
+          </div>
+        </div>
+
+        <svg class="cena__frente" viewBox="0 0 1440 620" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+          <!-- picos do meio (cobrem a parte de baixo das letras) -->
+          <path d="M0 526 L90 478 L190 506 L300 462 L410 498 L520 452 L610 470 L710 424 L790 462 L900 490 L1010 446 L1090 476 L1210 440 L1300 488 L1440 470 L1440 620 L0 620Z" fill="#507D5A"/>
+          <path d="M710 424 L668 470 L728 482Z" fill="#DAF1DE" opacity=".42"/>
+          <path d="M520 452 L488 484 L536 490Z" fill="#DAF1DE" opacity=".3"/>
+          <path d="M1210 440 L1172 478 L1226 488Z" fill="#DAF1DE" opacity=".34"/>
+          <path d="M300 462 L270 490 L314 496Z" fill="#DAF1DE" opacity=".28"/>
+          <!-- primeiro plano (termina na cor da faixa verde) com alguns pinheiros -->
+          <path d="M0 574 C190 546 360 588 630 564 C910 540 1110 592 1440 552 L1440 620 L0 620Z" fill="#235347"/>
+          <g fill="#163832">
+            <path d="M120 560 l12 -34 l12 34Z"/><path d="M152 566 l9 -26 l9 26Z"/>
+            <path d="M388 572 l10 -30 l10 30Z"/>
+            <path d="M846 560 l13 -38 l13 38Z"/><path d="M880 566 l9 -24 l9 24Z"/><path d="M906 562 l8 -22 l8 22Z"/>
+            <path d="M1180 566 l11 -32 l11 32Z"/>
+            <path d="M1356 556 l12 -36 l12 36Z"/>
+          </g>
+        </svg>
+
+        <a class="role" href="#sobre">role</a>
+      </div>
+    </header>
+
+    <!-- ============ FAIXA ============ -->
+    <div class="faixa parada escuro">
+      <div class="wrap">
+        <p><b>Jogos</b>, <b>séries</b>, <b>RPG</b> e <b>Pokémon</b>.</p>
+      </div>
+    </div>
+
+    <!-- ============ SOBRE MIM ============ -->
+    <section class="secao sobre parada" id="sobre">
+      <svg class="borda" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0 0 H1440 V52 L1330 84 L1190 46 L1060 90 L910 50 L770 88 L630 52 L470 90 L350 44 L190 84 L96 54 L0 80Z" fill="#507D5A"/>
+        <path d="M0 0 H1440 V38 L1330 66 L1190 32 L1060 72 L910 34 L770 70 L630 36 L470 72 L350 30 L190 66 L96 40 L0 62Z" fill="#235347"/>
+      </svg>
+      <div class="wrap">
+        <div class="sobre__texto aparece">
+          <div class="cab"><h2 class="titulo">Sobre mim</h2></div>
+          <p>Sou o Andre. Sou uma pessoa simpática e de fácil conversa. Penso bastante antes de falar e, quando alguém precisa de ajuda, costumo ser o primeiro a chegar.</p>
+        </div>
+        <dl class="fatos aparece">
+          <div><dt>Idade</dt><dd>19 anos</dd></div>
+          <div><dt>Estudo</dt><dd>Engenharia de Software, FIAP</dd></div>
+          <div><dt>Trabalho</dt><dd>Financeiro, ONE</dd></div>
+          <div><dt>Curto</dt><dd>Jogos, séries, RPG e Pokémon</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- ============ PROFISSÃO ============ -->
+    <section class="secao profissao parada" id="profissao">
+      <div class="wrap">
+        <div class="cab aparece">
+          <h2 class="titulo">Profissão</h2>
+          <span class="mao">dois caminhos, uma trilha</span>
+        </div>
+        <div class="blocos">
+          <article class="bloco bloco--fiap aparece">
+            <small>Estudo</small>
+            <h3>FIAP</h3>
+            <p>Engenharia de Software, com foco em programação fullstack.</p>
+          </article>
+          <article class="bloco bloco--one aparece">
+            <small>Trabalho</small>
+            <h3>ONE</h3>
+            <p>Área financeira da Ocean Network Express.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ GOSTOS ============ -->
+    <section class="secao gostos" id="gostos">
+      <div class="wrap">
+        <div class="cab aparece">
+          <h2 class="titulo">Gostos</h2>
+          <span class="mao">o que me faz perder a hora</span>
+        </div>
+        <div class="quadro">
+          <!-- Troque o texto entre [colchetes] pelo seu favorito -->
+          <article class="papel papel--1 aparece"><h3>Jogos</h3><span>[meu jogo favorito]</span></article>
+          <article class="papel papel--2 aparece"><h3>Séries</h3><span>[minha série favorita]</span></article>
+          <article class="papel papel--3 aparece"><h3>RPG</h3><span>[meu RPG favorito]</span></article>
+          <article class="papel papel--4 aparece"><h3>Pokémon</h3><span>[meu Pokémon favorito]</span></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cordilheira: leva do verde claro ao verde escuro -->
+    <svg class="cordilheira" viewBox="0 0 1440 240" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 152 L96 106 L240 142 L350 74 L520 136 L640 58 L790 128 L930 90 L1090 142 L1230 82 L1440 126 L1440 240 L0 240Z" fill="#6BA06F"/>
+      <path d="M0 192 L170 150 L290 186 L450 126 L610 184 L800 132 L960 186 L1140 140 L1290 182 L1440 156 L1440 240 L0 240Z" fill="#235347"/>
+      <path d="M0 228 C250 198 450 238 760 214 C1050 190 1210 234 1440 210 L1440 240 L0 240Z" fill="#0B2B26"/>
+    </svg>
+
+    <!-- ============ MINHA MENTE ============ -->
+    <section class="secao mente parada parada--escura" id="mente">
+      <div class="wrap">
+        <div class="aparece" style="display:flex;flex-direction:column;gap:20px">
+          <div class="cab">
+            <h2 class="titulo">Minha mente</h2>
+            <span class="mao">eu penso bastante</span>
+          </div>
+          <p class="mente__texto">Um pouco do que passa pela minha cabeça. Tudo está ligado a tudo.</p>
+        </div>
+
+        <!-- O mapa é montado pelo JavaScript (veja a lista MENTE lá embaixo) -->
+        <div class="mapa aparece" id="mapa" role="img" aria-label="Mapa mental com Andre no centro, ligado a: como eu sou, o que me move e ideias em andamento"></div>
+        <div class="lista" id="lista"></div>
+      </div>
+    </section>
+
+    <!-- ============ CONTATO ============ -->
+    <section class="contato escuro" id="contato">
+      <div class="wrap">
+        <div class="contato__corpo aparece">
+          <div class="contato__texto">
+            <h2 class="contato__titulo">Vamos conversar?</h2>
+            <span class="contato__email" id="email">andre.bento@exemplo.com</span>
+          </div>
+          <div class="contato__botoes">
+            <button class="btn" id="copiar" type="button">Copiar e-mail</button>
+            <!-- Troque os links de exemplo pelos seus -->
+            <a class="btn" href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
+            <a class="btn btn--sol" href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
+          </div>
+        </div>
+        <div class="rodape">Andre Bento · feito na aula de Vibecode</div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    /* =========================================================
+       JAVASCRIPT  (tudo opcional: sem ele a página continua legível)
+       ========================================================= */
+    (function () {
+      var reduzir = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      /* ---------- 1. Entrada suave ao rolar ---------- */
+      var itens = document.querySelectorAll('.aparece');
+      if ('IntersectionObserver' in window && !reduzir) {
+        var obs = new IntersectionObserver(function (entradas) {
+          entradas.forEach(function (e) {
+            if (e.isIntersecting) { e.target.classList.add('entrou'); obs.unobserve(e.target); }
+          });
+        }, { threshold: 0.1 });
+        itens.forEach(function (el) { obs.observe(el); });
+      } else {
+        itens.forEach(function (el) { el.classList.add('entrou'); });
+      }
+
+      /* ---------- 2. Paralaxe leve na cordilheira de trás ---------- */
+      var tras = document.getElementById('camadaTras');
+      if (!reduzir) {
+        var pendente = false;
+        window.addEventListener('scroll', function () {
+          if (pendente) return;
+          pendente = true;
+          requestAnimationFrame(function () {
+            var y = Math.min(window.scrollY, 900);
+            tras.style.transform = 'translateY(' + (y * 0.12) + 'px)';
+            pendente = false;
+          });
+        }, { passive: true });
+      }
+
+      /* ---------- 3. Mapa mental ----------
+         Coordenadas num espaço de 1000 x 625. Edite os textos à vontade.
+         Itens entre [colchetes] são para você preencher. */
+      var MENTE = {
+        centro: { rotulo: 'Andre', x: 500, y: 300 },
+        ramos: [
+          { rotulo: 'Como eu sou', x: 200, y: 160, folhas: [
+            { rotulo: 'simpático',          x: 90,  y: 50  },
+            { rotulo: 'pensativo',          x: 300, y: 55  },
+            { rotulo: 'prestativo',         x: 80,  y: 275 },
+            { rotulo: 'fácil de conversar', x: 255, y: 290 } ] },
+          { rotulo: 'O que me move', x: 800, y: 160, folhas: [
+            { rotulo: 'jogos',   x: 700, y: 55  },
+            { rotulo: 'séries',  x: 905, y: 50  },
+            { rotulo: 'RPG',     x: 710, y: 285 },
+            { rotulo: 'Pokémon', x: 900, y: 280 } ] },
+          { rotulo: 'Ideias em andamento', x: 500, y: 470, folhas: [
+            { rotulo: 'projetos em React',      x: 215, y: 500 },
+            { rotulo: 'dispositivos com ESP32', x: 790, y: 500 },
+            { rotulo: '[nova ideia]',           x: 375, y: 585 },
+            { rotulo: '[nova ideia]',           x: 635, y: 585 } ] }
+        ]
+      };
+
+      var mapa = document.getElementById('mapa');
+      var lista = document.getElementById('lista');
+      var NS = 'http://www.w3.org/2000/svg';
+      var svg = document.createElementNS(NS, 'svg');
+      svg.setAttribute('viewBox', '0 0 1000 625');
+      svg.setAttribute('preserveAspectRatio', 'none');
+      svg.setAttribute('aria-hidden', 'true');
+      mapa.appendChild(svg);
+
+      var contador = 0;
+      function ligar(a, b) {                       // linha pontilhada meio torta, como desenhada à mão
+        contador++;
+        var jitter = ((contador * 37) % 24) - 12;
+        var mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2;
+        var cx = mx + (b.y - a.y) * 0.14 + jitter, cy = my - (b.x - a.x) * 0.14 - jitter;
+        var p = document.createElementNS(NS, 'path');
+        p.setAttribute('d', 'M' + a.x + ' ' + a.y + ' Q' + cx + ' ' + cy + ' ' + b.x + ' ' + b.y);
+        svg.appendChild(p);
+      }
+      function no(n, classe) {
+        var el = document.createElement('span');
+        el.className = 'no ' + classe;
+        el.textContent = n.rotulo;
+        el.style.left = (n.x / 10) + '%';
+        el.style.top = (n.y / 6.25) + '%';
+        mapa.appendChild(el);
+      }
+      function chip(texto, tag) {
+        var s = document.createElement(tag);
+        s.textContent = texto;
+        lista.appendChild(s);
+      }
+
+      MENTE.ramos.forEach(function (r) {
+        ligar(MENTE.centro, r);
+        r.folhas.forEach(function (f) { ligar(r, f); });
+      });
+      MENTE.ramos.forEach(function (r) {
+        no(r, 'no--hub'); chip(r.rotulo, 'b');
+        r.folhas.forEach(function (f) { no(f, 'no--folha'); chip(f.rotulo, 'span'); });
+      });
+      no(MENTE.centro, 'no--centro');
+
+      /* ---------- 4. Botão "Copiar e-mail" ---------- */
+      var botao = document.getElementById('copiar');
+      var emailEl = document.getElementById('email');
+      botao.addEventListener('click', function () {
+        var texto = emailEl.textContent.trim();
+        function avisar(ok) {
+          botao.textContent = ok ? 'Copiado!' : 'Selecione e copie';
+          setTimeout(function () { botao.textContent = 'Copiar e-mail'; }, 2000);
+          if (!ok) {
+            var r = document.createRange(); r.selectNodeContents(emailEl);
+            var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+          }
+        }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(texto).then(function () { avisar(true); }, function () { avisar(false); });
+        } else { avisar(false); }
+      });
+    })();
+  </script>
+</body>
+</html>

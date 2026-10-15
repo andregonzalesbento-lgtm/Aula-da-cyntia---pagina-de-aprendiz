@@ -1,0 +1,32 @@
+Aqui vou colocar meus PROMPTS | oq ela fez de errado | referências visuais | paleta de cores
+
+IA: Claude para o codigo e Figma para as ideias 
+
+eu para o claude: 
+- Oi vamos trabalhar hoje? eu preciso de um projeto vibecode para minha aula de Vibecode, aonde vc precisa de validação minha para seguir, é uma landing page sobre mim, por onde começamos me de ideias de progrssão, preciso de algo rapido bem curto para uma aula
+
+-e chamo Andre Bento, tenho 19 anos, faço programação fullstack em engenharia de software na fiap, eu amo jogos, series, Rpg e pokemon. Sou uma pessoa simpatica, facil conversação, pensativo e prestativo email pode inventar um, trabalho na ONE ocan network express na area do financeiro
+
+Sobre o projeto quero algo basico: Sobre mim, Profissão, gostos, "minha mente" uma brainstorme meu algo assim 
+
+quero uma paleta meio natureza como segue nos exemplos anexos, quero que vc siga igual aos anexados. 
+
+quero uma fonte variada e grande
+
+quero um modo mais ligh e natural simples e sofisticado mais seculo21 algo assim. 
+
+Cartão de visita vivo: uma página única, colorida e com personalidade, mais “eu” e menos currículo.
+
+-passei varias coisas em forma de imagem como print da paleta de cores, fundo, distorcoes de imagem, fundo, quadrados, brainstorme, transição de pagina (que ele não seguiu)
+
+-Não seguiu a transição pedida refaça corretamente como pedid anteriorimente;
+
+- vi que estava sem um resultado bom e mudei de ideia 
+
+-parti para outra mudança dava algo para ele e pedia para ele gerar um prompt para ele mesmo analaisar e copiar 
+
+-e vi resultados mas estava com muita cara de iA ai passei esse link https://templates.descomplicandosites.com.br/
+
+-que eu vi em um canal que eu sigo para landing pages 
+
+
